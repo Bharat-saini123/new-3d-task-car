@@ -76,7 +76,7 @@ function cloneModel(index) { return models[index].clone(true); }
 function setStage(index, animate = false) {
   stage.clear();
   const model = cloneModel(index);
-  const displayScale = index >= 9 ? 0.5 : index >= 7 ? 0.8 : 1;
+  const displayScale = [1, 3, 5].includes(index) ? 0.6 : index >= 7 ? 0.5 : 1;
   if (animate) {
     const end = model.position.clone();
     model.position.y += 2.5; model.scale.setScalar(displayScale * 0.78); stage.add(model);
