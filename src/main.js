@@ -76,11 +76,12 @@ function cloneModel(index) { return models[index].clone(true); }
 function setStage(index, animate = false) {
   stage.clear();
   const model = cloneModel(index);
+  const displayScale = index >= 9 ? 0.5 : 1;
   if (animate) {
     const end = model.position.clone();
-    model.position.y += 2.5; model.scale.setScalar(0.78); stage.add(model);
-    animation = { model, start: performance.now(), end };
-  } else { stage.add(model); animation = null; }
+    model.position.y += 2.5; model.scale.setScalar(displayScale * 0.78); stage.add(model);
+    animation = { model, start: performance.now(), end, displayScale };
+  } else { model.scale.setScalar(displayScale); stage.add(model); animation = null; }
 }
 function updateThumbnail(index) {
   thumbGroup.clear();
@@ -128,7 +129,7 @@ function render() {
   requestAnimationFrame(render);
   if (autoRotate && !dragging) userRotY += 0.006;
   stage.rotation.set(userRotX, userRotY, 0);
-  if (animation) { const progress = Math.min(1, (performance.now() - animation.start) / 700); animation.model.position.lerpVectors(new THREE.Vector3(animation.end.x, animation.end.y + 2.5, animation.end.z), animation.end, 1 - Math.pow(1 - progress, 3)); animation.model.scale.setScalar(0.78 + progress * 0.22); if (progress === 1) animation = null; }
+  if (animation) { const progress = Math.min(1, (performance.now() - animation.start) / 700); animation.model.position.lerpVectors(new THREE.Vector3(animation.end.x, animation.end.y + 2.5, animation.end.z), animation.end, 1 - Math.pow(1 - progress, 3)); animation.model.scale.setScalar(animation.displayScale * (0.78 + progress * 0.22)); if (progress === 1) animation = null; }
   camera.position.lerp(cameraTarget, 0.08); camera.lookAt(lookAt); renderer.render(scene, camera);
   thumbGroup.rotation.y += 0.012; thumbCamera.lookAt(0, 0, 0); thumbRenderer.render(thumbScene, thumbCamera);
 }
