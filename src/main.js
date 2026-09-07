@@ -157,7 +157,7 @@ async function loadAssembly() {
   rawModels.forEach(model => { const bounds = new THREE.Box3().setFromObject(model); const center = bounds.getCenter(new THREE.Vector3()); model.scale.setScalar(scale); model.position.set(-center.x * scale, -bounds.min.y * scale, -center.z * scale); model.traverse(object => { if (object.isMesh) { object.castShadow = true; object.receiveShadow = true; } }); models.push(model); });
   const allBounds = new THREE.Box3().setFromObject(new THREE.Group().add(...models.map(model => model.clone(true))));
   lookAt = allBounds.getCenter(new THREE.Vector3()); const maxDimension = Math.max(allBounds.getSize(new THREE.Vector3()).x, allBounds.getSize(new THREE.Vector3()).y, allBounds.getSize(new THREE.Vector3()).z);
-  isoPosition = lookAt.clone().add(new THREE.Vector3(1, 0.78, 1).normalize().multiplyScalar(maxDimension * 2.05)); topPosition = lookAt.clone().add(new THREE.Vector3(0.05, 1.5, 0.55).normalize().multiplyScalar(maxDimension * 2.15)); cameraTarget = isoPosition.clone();
+  isoPosition = lookAt.clone().add(new THREE.Vector3(1.15, 0.42, 1.25).normalize().multiplyScalar(maxDimension * 1.8)); topPosition = lookAt.clone().add(new THREE.Vector3(0.05, 1.5, 0.55).normalize().multiplyScalar(maxDimension * 2.15)); cameraTarget = isoPosition.clone();
   document.querySelector('.loading').remove(); app.classList.add('is-ready'); setStage(0, true); updateUi();
 }
 loadAssembly().catch(error => { document.querySelector('.loading').textContent = 'Unable to load FBX assets'; console.error(error); });
