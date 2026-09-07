@@ -4,6 +4,7 @@ import './style.css';
 
 const MODEL_COUNT = 24;
 const MODEL_BASE = '/car FBX/FBX/';
+const ASSEMBLY_ANIMATION_SPEED = 1.5;
 const models = [];
 let step = 0;
 let autoRotate = false;
@@ -90,7 +91,7 @@ function setStage(index, animate = false) {
   action.setLoop(THREE.LoopOnce, 1);
   action.clampWhenFinished = true;
   action.play();
-  animation = { mixer, start: performance.now(), duration: model.animations[0].duration };
+  animation = { mixer, start: performance.now(), duration: model.animations[0].duration / ASSEMBLY_ANIMATION_SPEED };
 }
 function updateThumbnail(index) {
   thumbGroup.clear();
@@ -140,7 +141,7 @@ function render() {
   stage.rotation.set(userRotX, userRotY, 0);
   if (animation) {
     const elapsed = Math.min(animation.duration, (performance.now() - animation.start) / 1000);
-    animation.mixer.setTime(elapsed);
+    animation.mixer.setTime(elapsed * ASSEMBLY_ANIMATION_SPEED);
     if (elapsed >= animation.duration) animation = null;
   }
   camera.position.lerp(cameraTarget, 0.08); camera.lookAt(lookAt); renderer.render(scene, camera);
