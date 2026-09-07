@@ -144,7 +144,7 @@ async function loadAssembly() {
   const allBounds = new THREE.Box3().setFromObject(new THREE.Group().add(...models.map(model => model.clone(true))));
   lookAt = allBounds.getCenter(new THREE.Vector3()); const maxDimension = Math.max(allBounds.getSize(new THREE.Vector3()).x, allBounds.getSize(new THREE.Vector3()).y, allBounds.getSize(new THREE.Vector3()).z);
   isoPosition = lookAt.clone().add(new THREE.Vector3(1, 0.78, 1).normalize().multiplyScalar(maxDimension * 1.55)); topPosition = lookAt.clone().add(new THREE.Vector3(0.05, 1.5, 0.55).normalize().multiplyScalar(maxDimension * 1.65)); cameraTarget = isoPosition.clone();
-  document.querySelector('.loading').remove(); setStage(0); updateUi();
+  document.querySelector('.loading').remove(); app.classList.add('is-ready'); setStage(0, true); updateUi();
 }
 loadAssembly().catch(error => { document.querySelector('.loading').textContent = 'Unable to load FBX assets'; console.error(error); });
 render();
