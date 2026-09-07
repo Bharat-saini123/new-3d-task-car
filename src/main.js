@@ -7,7 +7,7 @@ const MODEL_BASE = "/car FBX/FBX/";
 const ASSEMBLY_ANIMATION_SPEED = 1.5;
 const models = [];
 let step = 0;
-let autoRotate = false;
+let autoRotate = true;
 let viewMode = "iso";
 let userRotY = 0.6;
 let userRotX = -0.2;
@@ -21,7 +21,7 @@ app.innerHTML = `
   <button id="btn-undo" class="icon-btn glass" title="Restart build">↺</button>
   <div id="step-label"><span class="of"></span><span class="nm"></span></div>
   <div id="thumb-panel" class="glass"><canvas id="thumb-canvas" class="thumb-canvas"></canvas><div id="thumb-label">THIS PIECE</div></div>
-  <div id="right-controls"><button id="btn-rotate" class="icon-btn glass" title="Auto-rotate">⟲</button><button id="btn-view" class="icon-btn glass" title="Toggle view">▢</button></div>
+  <div id="right-controls"><button id="btn-rotate" class="icon-btn glass active" title="Auto-rotate">⟲</button><button id="btn-view" class="icon-btn glass" title="Toggle view">▢</button></div>
   <div id="hint">drag to rotate</div>
   <div id="bottom-bar"><button id="btn-prev" class="round-btn" title="Previous">◀</button><div id="slider-wrap"><div id="slider-track"><div id="slider-fill"></div><div id="slider-handle"></div></div></div><button id="btn-next" class="round-btn" title="Next">▶</button><button id="btn-reset" class="round-btn" title="Reset view">⟳</button></div>`;
 
