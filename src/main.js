@@ -26,7 +26,7 @@ app.innerHTML = `
 
 const canvas = document.querySelector('#main-canvas');
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(36, innerWidth / innerHeight, 0.1, 100);
+const camera = new THREE.PerspectiveCamera(36, innerWidth / innerHeight, 0.01, 100);
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -52,7 +52,7 @@ for (let radius = 1.4; radius <= 3.2; radius += 0.9) {
 }
 
 const thumbScene = new THREE.Scene();
-const thumbCamera = new THREE.PerspectiveCamera(35, 1, 0.1, 50);
+const thumbCamera = new THREE.PerspectiveCamera(35, 1, 0.01, 50);
 thumbCamera.position.set(2.6, 2, 3);
 const thumbRenderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#thumb-canvas'), antialias: true, alpha: true });
 thumbRenderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -84,11 +84,15 @@ function setStage(index, animate = false) {
 }
 function updateThumbnail(index) {
   thumbGroup.clear();
+  const wrapper = new THREE.Group();
   const model = cloneModel(index);
-  const bounds = new THREE.Box3().setFromObject(model);
+  wrapper.add(model);
+  const bounds = new THREE.Box3().setFromObject(wrapper);
   const size = new THREE.Vector3(); bounds.getSize(size);
   const center = new THREE.Vector3(); bounds.getCenter(center);
-  model.position.sub(center); model.scale.setScalar(2.2 / Math.max(size.x, size.y, size.z)); thumbGroup.add(model);
+  model.position.sub(center);
+  wrapper.scale.setScalar(2.05 / Math.max(size.x, size.y, size.z, 0.001));
+  thumbGroup.add(wrapper);
 }
 function updateUi() {
   document.querySelector('.of').textContent = `${step + 1} / ${MODEL_COUNT} — `;
